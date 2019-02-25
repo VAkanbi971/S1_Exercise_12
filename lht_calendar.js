@@ -38,23 +38,57 @@ document.getElementById("calendar").innerHTML = createCalendar(thisDay);
 
 // Function to generate the calendar table
 function createCalendar(calDate) {
-   var calendarHTML = "<table id='calendar_table'>";
-   calendarHTML += calCaption(calDate);
-   calendarHTML += "</table>";
-   return calendarHTML;
+      var calendarHTML = "<table id='calendar_table'>";
+      calendarHTML += calCaption(calDate);
+      calendarHTML += calWeekdayRow();
+      calendarHTML += "</table>";
+      return calendarHTML;
 }
 
 // Function to write the calendar caption
 function calCaption(calDate) {
-   //monthName array contains the list of month names
-   var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      //monthName array contains the list of month names
+      var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-   //determine the current month
-   var thisMonth = calDate.getMonth();
+      //determine the current month
+      var thisMonth = calDate.getMonth();
 
-   //determine the current year
-   var thisYear = calDate.getFullYear();
+      //determine the current year
+      var thisYear = calDate.getFullYear();
 
-   //write the caption
-   return "<caption>" + monthName[thisMonth] + " " + thisYear + "</caption>";
+      //write the caption
+      return "<caption>" + monthName[thisMonth] + " " + thisYear + "</caption>";
+}
+
+//function to write a table row of weekday abbreviations 
+function calWeekdayRow() {
+      //array of weekday abbreveations
+      var dayName = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      var rowHTML = "<tr>";
+
+      //look through the dayName array
+      for (var i = 0; i < dayName.length; i++) {
+            rowHTML += "<th class='calendar_weekdays'>" + dayName[i] + "</th>";
+      }
+      rowHTML += "</tr>";
+      return rowHTML;
+}
+
+// funtion to calculate the number of days in a month
+
+function daysInMonth(calDate) {
+      //array of days in each month
+      var dayCount = [31, 28, 21, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+      //extract the four didget year and month value
+      var thisYear = calDate.getFullYear();
+      var thisMonth = calDate.getMonth();
+
+      //revise thedays in February fir the leap year
+      if (thisYear % 4 === 0) {
+            dayCount[1] = 29
+      }
+
+      //return the number of days for the current month
+      return dayCount[thisMonth];
 }
